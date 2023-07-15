@@ -21,8 +21,8 @@ fun BuchiApp(){
                 .padding(it)
         ) {
             val buchiViewModel: BuchiViewModel = viewModel()
-            HomePage(
-                buchiUiState = buchiViewModel.buchiUiState)
+
+            //buchiUiState = buchiViewModel.buchiUiState
         }
     }
 }

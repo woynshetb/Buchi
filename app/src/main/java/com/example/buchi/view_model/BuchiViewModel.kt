@@ -4,10 +4,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import com.example.buchi.model.Customer
 import com.example.buchi.model.Pet
 import com.example.buchi.network.BuchiApi
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.JsonObject
+import org.json.JSONObject
 import java.io.IOException
 
 sealed interface BuchiUiState {
@@ -72,6 +78,31 @@ class BuchiViewModel : ViewModel() {
             }
         }
     }
+   private  fun adaptPet(){ viewModelScope.launch{
+       try {
+           val user =Customer( "woynshet",  "0964001822")
+           val response = BuchiApi.retrofitService.add(user)
+
+
+
+
+
+
+
+       }
+       catch (e:IOException){
+           println("*******************************")
+           println(e.message)
+           println("*******************************")
+
+       }
+
+
+   }
+
+
+   }
+
 
 }
 
