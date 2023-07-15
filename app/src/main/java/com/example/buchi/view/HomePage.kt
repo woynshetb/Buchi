@@ -22,11 +22,7 @@ fun HomePage(
 
     Text(text = "HOME")
 
-//    when (buchiUiState) {
-//       is BuchiUiState.Success ->  Text(text = buchiUiState.pets.toString() )
-//        is BuchiUiState.Loading ->  CircularProgressIndicator()
-//        is BuchiUiState.Error -> Text(text = "Error")
-//    }
+
 //
 
 

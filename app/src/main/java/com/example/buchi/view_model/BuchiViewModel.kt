@@ -8,6 +8,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import com.example.buchi.R
+import com.example.buchi.model.Category
 import com.example.buchi.model.Customer
 import com.example.buchi.model.Pet
 import com.example.buchi.network.BuchiApi
@@ -17,11 +19,22 @@ import org.json.JSONObject
 import java.io.IOException
 
 sealed interface BuchiUiState {
-    data class Success(val pets: List<Pet>) : BuchiUiState
+    data class Success(val pets: List<Pet>,var searchCategories:List<Category> = listOf<Category>(
+        Category("Dogs", title = "A man's best friend\nsince the begining!", description = "seek companionship from one of the best human friend ever", image = R.drawable.dog, value = "Dog",),
+        Category("Cats", title = "Magestic cute \n even queen !", description = "seek companionship from one of the best human friend ever", image = R.drawable.cat, value = "Cat",),
+        Category("Others", title = "A man's best friend since the begining!", description = "seek companionship from one of the best human friend ever", image = R.drawable.bird, value = "Dog",),
+
+    )) : BuchiUiState
     object Error : BuchiUiState
     object Loading : BuchiUiState
 }
+
+
+
 class BuchiViewModel : ViewModel() {
+
+
+
     var gender:String =""
     var type:String=""
     var size:String=""
@@ -32,7 +45,14 @@ class BuchiViewModel : ViewModel() {
 
 
     init {
+
         getAllPets()
+
+
+
+
+
+
     }
     private fun getAllPets() {
         viewModelScope.launch {

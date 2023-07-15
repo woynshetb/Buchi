@@ -2,6 +2,7 @@ package com.example.buchi.view
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
+import androidx.compose.material.SnackbarDefaults.backgroundColor
 import androidx.compose.material.icons.Icons
 
 import androidx.compose.material.icons.rounded.Menu
@@ -53,13 +54,20 @@ fun MainPage(navController: NavController, modifier: Modifier = Modifier,){
 
 
 @Composable
-fun BottomNavigationBar(navController: NavController) {
+fun BottomNavigationBar(navController: NavController, modifier: Modifier=Modifier) {
     val items = listOf(Screens.Home, Screens.Search, Screens.Favorite)
-    BottomNavigation {
+    BottomNavigation(
+        backgroundColor = Color.White,
+      modifier = modifier.height(  100.dp).navigationBarsPadding(
+      )
+
+    ) {
+
         val currentRoute = currentRoute(navController)
+
         items.forEach { item ->
             BottomNavigationItem(
-                icon = { Icon(item.icon, contentDescription = "") },
+                icon = { Icon(item.icon, contentDescription = "", tint = BrownDeep, modifier = modifier.size(35.dp)) },
 
                 selected = currentRoute == item.route,
                 onClick = {
