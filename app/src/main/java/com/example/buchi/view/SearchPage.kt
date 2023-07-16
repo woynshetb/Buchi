@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.buchi.model.Category
+import com.example.buchi.navigation.Screens
 import com.example.buchi.ui.theme.BrownDeep
 import com.example.buchi.ui.theme.BrownLight
 import com.example.buchi.view_model.BuchiUiState
@@ -72,7 +73,9 @@ fun SearchPage(navController: NavController, modifier : Modifier = Modifier){
                         )
                 }
 
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = {
+
+                }) {
                     Icon(
                         Icons.Rounded.Menu,
                         modifier = modifier
@@ -98,9 +101,10 @@ fun SearchPage(navController: NavController, modifier : Modifier = Modifier){
         modifier = modifier.padding(0.dp)
     ){
             when (buchiUiState) {
-       is BuchiUiState.Success ->CategoryList(categoryList= buchiUiState.searchCategories, navController = navController)
+       is BuchiUiState.Success ->  CategoryList(categoryList= buchiUiState.searchCategories, navController = navController)
         is BuchiUiState.Loading ->  CircularProgressIndicator()
         is BuchiUiState.Error -> Text(text = "Error")
+                else -> Text(text = "Error")
     }
     }
     }
@@ -119,7 +123,7 @@ fun CategoryList(categoryList: List<Category>, modifier: Modifier = Modifier, na
                         color = Color.Transparent,
                         shape = RoundedCornerShape(4.dp)
                     )
-                    .padding(16.dp),
+                    .padding(start = 40.dp, top = 30.dp, end = 40.dp, bottom = 10.dp  ),
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = Color.Transparent,
                     contentColor = MaterialTheme.colors.primary
@@ -129,10 +133,11 @@ fun CategoryList(categoryList: List<Category>, modifier: Modifier = Modifier, na
 
 
                 onClick = {
+                    navController.navigate("searching/${category.value}")
 
                 // go to add input page
             }) {
-                CategoryCard(category = category, isLeft = ((index+1)%2) ==0 )
+                CategoryCard(category = category, isRight = ((index+1)%2) ==0 )
             }
         }
     }
@@ -140,10 +145,12 @@ fun CategoryList(categoryList: List<Category>, modifier: Modifier = Modifier, na
 
 @Composable
 fun CategoryCard(
-     isLeft :Boolean = true,
+     isRight :Boolean ,
      modifier: Modifier = Modifier,
      category: Category
 ){
+
+
 
 
     Card(modifier = modifier
@@ -153,48 +160,92 @@ fun CategoryCard(
 
         )    {
 
-
-        Row(
-
-        ) {
-
-
-
-            Image(
-                painter = painterResource(category.image),
-                contentDescription = "",
-                contentScale = ContentScale.FillHeight,
-                modifier = modifier
-                    .height(150.dp)
-                    .width(150.dp)
-                    .clip(RoundedCornerShape(20.dp))
-
-            )
-            
-            Column(
-                modifier = modifier.padding(10.dp),
-                horizontalAlignment = Alignment.End
-            ) {
-
-                Text(text = category.categoryTitle, color = BrownDeep, fontSize = 20.sp,textAlign = TextAlign.Right)
-                Text(text = category.title, fontSize = 14.sp, textAlign = TextAlign.Left)
-                Text(text = category.description, fontWeight = FontWeight.Light,textAlign = TextAlign.Right, color = Color.Gray)
-
-                
-                
-            }
-
-
+        if(isRight){
+            RightCardBody(category=category)
         }
+        else{
+           LeftCardBody(category = category)
+        }
+
 
     }
 }
 
 @Composable
-fun LeftCardBody(){
+fun LeftCardBody(
+    category: Category,
+    modifier: Modifier = Modifier
+){
+    Row(
 
+    ) {
+
+
+
+        Image(
+            painter = painterResource(category.image),
+            contentDescription = "",
+            contentScale = ContentScale.FillHeight,
+            modifier = modifier
+                .height(150.dp)
+                .width(150.dp)
+                .clip(RoundedCornerShape(20.dp))
+
+        )
+
+        Column(
+            modifier = modifier.padding(top = 20.dp, end = 10.dp),
+            horizontalAlignment = Alignment.End
+        ) {
+
+            Text(text = category.categoryTitle, color = BrownDeep, fontSize = 20.sp,textAlign = TextAlign.Right,)
+            Text(text = category.title, fontSize = 14.sp, textAlign = TextAlign.Right, fontWeight = FontWeight.W400)
+            Text(text = category.description, fontWeight = FontWeight.Light,textAlign = TextAlign.Right, color = Color.Gray, fontSize = 12.sp)
+
+
+
+        }
+
+
+    }
 }
 @Composable
-fun RightCardBody(){
+fun RightCardBody(
+    category: Category,
+    modifier: Modifier = Modifier
+){
+    Row(
+   horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+
+
+
+        Column(
+            modifier = modifier.padding(top = 20.dp, start = 10.dp),
+            horizontalAlignment = Alignment.Start
+        ) {
+
+            Text(text = category.categoryTitle, color = BrownDeep, fontSize = 20.sp,textAlign = TextAlign.Left)
+            Text(text = category.title, fontSize = 14.sp, textAlign = TextAlign.Left,fontWeight = FontWeight.W400)
+            Text(text = category.description, fontWeight = FontWeight.Light,textAlign = TextAlign.Left, color = Color.Gray, fontSize = 12.sp)
+
+
+
+        }
+
+        Image(
+            painter = painterResource(category.image),
+            contentDescription = "",
+            contentScale = ContentScale.FillHeight,
+            modifier = modifier
+                .height(150.dp)
+                .width(150.dp)
+                .clip(RoundedCornerShape(20.dp))
+
+        )
+
+
+
+    }
 
 }

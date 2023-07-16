@@ -29,44 +29,9 @@ fun NavGraph (navController: NavHostController, modifier: Modifier){
                 navController=navController,
             )
         }
-        composable(route = Screens.Home.route){
-            HomePage(
-                navController=navController,
-            )
-        }
-        composable(route = Screens.DETAIL.route){
-            DetailPage(
-                navController=navController,
-            )
-        }
-        composable(route = Screens.Favorite.route){
-            FavoritePage(
-                navController=navController,
-            )
-        }
-        composable(route = Screens.ADAPT.route){
-            AdaptPage(
-                navController=navController,
-            )
-        }
 
-        composable(route = Screens.Search.route){
-            SearchPage(
-                navController=navController,
-            )
-        }
 
-        composable(route = Screens.SUCCESS.route){
-            SuccessPage(
-                navController=navController,
-            )
-        }
 
-        composable(route = Screens.ADAPT.route){
-            AdaptPage(
-                navController=navController,
-            )
-        }
 
     }
 }

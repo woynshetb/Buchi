@@ -20,9 +20,11 @@ import java.io.IOException
 
 sealed interface BuchiUiState {
     data class Success(val pets: List<Pet>,var searchCategories:List<Category> = listOf<Category>(
-        Category("Dogs", title = "A man's best friend\nsince the begining!", description = "seek companionship from one of the best human friend ever", image = R.drawable.dog, value = "Dog",),
-        Category("Cats", title = "Magestic cute \n even queen !", description = "seek companionship from one of the best human friend ever", image = R.drawable.cat, value = "Cat",),
-        Category("Others", title = "A man's best friend since the begining!", description = "seek companionship from one of the best human friend ever", image = R.drawable.bird, value = "Dog",),
+        Category("Dogs", title = "A man's best friend\nsince the beginning!", description = "seek companionship from one of the best human friend ever", image = R.drawable.dog, value = "Dog",),
+        Category("Cats", title = "Majestic cute \neven queen !", description = "seek companionship\n" +
+                "from one of the magnetic\n" +
+                "pets of all time", image = R.drawable.cat, value = "Cat",),
+        Category("Others", title = "A man's best friend \n since the begining!", description = "seek companionship \n from one of the magnetic \n pets of all time", image = R.drawable.bird, value = "Dog",),
 
     )) : BuchiUiState
     object Error : BuchiUiState
