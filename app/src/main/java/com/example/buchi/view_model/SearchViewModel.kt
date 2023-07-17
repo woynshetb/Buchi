@@ -49,7 +49,10 @@ class SearchViewModel (
     var ages = listOf<Age>(
 
         Age(name = "Baby", age ="baby"),
+        Age(name="Puppy", age= "puppy"),
         Age(name = "Medium", age ="medium"),
+        Age(name = "Adult", age = "adult" ),
+        Age(name = "Senior", age = "senior" ),
 
 
     )
@@ -95,7 +98,7 @@ class SearchViewModel (
         searchUiState = SearchUiState.Loading
 
    val params: MutableMap<String, String> = mutableMapOf()
-      params["limit"] = "20"
+      params["limit"] = "100"
         params["good_with_children"]="$good_with_childern"
         if (!type.isNullOrEmpty()) {
             params["type"] = "$type"
@@ -109,6 +112,9 @@ class SearchViewModel (
         if (!size.isNullOrEmpty()) {
             params["size"] = size
         }
+
+
+        println(params)
 
 
 

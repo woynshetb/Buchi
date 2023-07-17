@@ -89,8 +89,24 @@ Scaffold(
             horizontal = 30.dp
         )
     ) {
- Text(text = "Congratulation", color = BrownDeep, fontSize = 30.sp, fontWeight = FontWeight.W900 )
-        Text(text = "We will set up a meeting with your companion soon :)")
+        Box(
+            modifier = modifier.height(80.dp)
+        ) {
+
+        }
+
+        Text(text = "Congratulations", color = BrownDeep, fontSize = 44.sp, fontWeight = FontWeight.W900 )
+        Box(
+            modifier = modifier.height(40.dp)
+        ) {
+
+        }
+        Text(text = "We will set up a meeting with your companion soon :)", color=Color.Black)
+        Box(
+            modifier = modifier.height(20.dp)
+        ) {
+
+        }
         Text(text = "Browse for more", color = BrownDeep, modifier = modifier.clickable {
 
 

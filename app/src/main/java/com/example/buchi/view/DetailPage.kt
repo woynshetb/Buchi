@@ -2,6 +2,7 @@ package com.example.buchi.view
 
 import android.os.Parcelable
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -38,21 +39,43 @@ import androidx.viewpager2.widget.ViewPager2
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.buchi.R
+import com.example.buchi.model.PhotoData
 import com.example.buchi.navigation.Screens
 import com.example.buchi.ui.theme.BrownDeep
 import com.example.buchi.ui.theme.BrownLight
+import com.google.gson.Gson
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
-fun DetailPage(navController: NavController, modifier: Modifier = Modifier){
-    val imageList = listOf(
-        R.drawable.cat,
-        R.drawable.dog,
+fun DetailPage(navController: NavController, modifier: Modifier = Modifier, petType:String , petId: String , good_with_children :Boolean , gender:String, petSize :String , photos:String, age:String, source:String){
+
+
+    val photoList = parseJsonToPhotoList(photos)
+
+
+    val imageList = mutableListOf<Int>()
+    var placeHolderImage :Int
+
+
+
+
+
+
+    var pet = Pet(type = petType, pet_id = petId, good_with_children = good_with_children, gender = gender, size = petSize, photos = photoList, age =age, source = source)
+
+    placeHolderImage = if (pet.type =="cat"|| pet.type =="Cat"){
+        imageList.add( R.drawable.cat,)
+        R.drawable.cat
+    }
+    else if(pet.type =="dog"|| pet.type =="Dog") {
+        imageList.add( R.drawable.dog,)
+        R.drawable.dog
+    }
+    else{
+        imageList.add( R.drawable.bird,)
         R.drawable.bird
-    )
-
-
+    }
 
 
     Scaffold(
@@ -119,7 +142,12 @@ fun DetailPage(navController: NavController, modifier: Modifier = Modifier){
 
 
           Column(modifier.weight(1f)) {
-              ImageSlider()
+              ImageSlider(
+                  photos = photoList,
+                  placeHolder = placeHolderImage,
+                  placeholders = imageList
+
+              )
           }
 
           // Second Column
@@ -148,11 +176,11 @@ fun DetailPage(navController: NavController, modifier: Modifier = Modifier){
 
               }
 
-              Text(text = "Cat", fontSize = 20.sp, color = BrownDeep , fontWeight = FontWeight.Bold, modifier = modifier.padding(horizontal = 20.dp,))
+              Text(text = "${pet.type}", fontSize = 20.sp, color = BrownDeep , fontWeight = FontWeight.Bold, modifier = modifier.padding(horizontal = 20.dp,))
 
               Divider(
                   color = Color.Black,
-                  thickness = 0.4.dp,
+                  thickness = 0.8.dp,
                   modifier = Modifier
                       .padding(vertical = 8.dp)
                       .fillMaxWidth()
@@ -164,11 +192,16 @@ fun DetailPage(navController: NavController, modifier: Modifier = Modifier){
               ){
 
               }
-              Text(text = "Not Good with Children ",modifier = modifier.padding(horizontal = 20.dp))
+              if(pet.good_with_children){
+                  Text(text = "Good with Children ", color = Color.Black ,modifier = modifier.padding(horizontal = 20.dp))
+              }else{
+                  Text(text = "Not Good with Children ", color = Color.Black ,modifier = modifier.padding(horizontal = 20.dp))
+              }
+
 
               Divider(
                   color = Color.Black,
-                  thickness = 0.4.dp,
+                  thickness = 0.8.dp,
                   modifier = Modifier
                       .padding(vertical = 8.dp)
                       .fillMaxWidth()
@@ -180,11 +213,11 @@ fun DetailPage(navController: NavController, modifier: Modifier = Modifier){
               ){
 
               }
-              Text(text = "Age: Adult ",modifier = modifier.padding(horizontal = 20.dp))
+              Text(text = "Age: ${pet.age} ",color = Color.Black ,modifier = modifier.padding(horizontal = 20.dp))
 
               Divider(
                   color = Color.Black,
-                  thickness = 0.4.dp,
+                  thickness = 0.8.dp,
                   modifier = Modifier
                       .padding(vertical = 8.dp)
                       .fillMaxWidth()
@@ -196,11 +229,11 @@ fun DetailPage(navController: NavController, modifier: Modifier = Modifier){
               ){
 
               }
-              Text(text = "Gender : Male ",modifier = modifier.padding(horizontal = 20.dp))
+              Text(text = "Gender : ${pet.gender} ",modifier = modifier.padding(horizontal = 20.dp),color = Color.Black )
 
               Divider(
                   color = Color.Black,
-                  thickness = 0.4.dp,
+                  thickness = 0.8.dp,
                   modifier = Modifier
                       .padding(vertical = 8.dp)
                       .fillMaxWidth()
@@ -212,11 +245,11 @@ fun DetailPage(navController: NavController, modifier: Modifier = Modifier){
               ){
 
               }
-              Text(text = "Size Big ",modifier = modifier.padding(horizontal = 20.dp))
+              Text(text = "Size : ${pet.size} ",modifier = modifier.padding(horizontal = 20.dp),color = Color.Black )
 
               Divider(
                   color = Color.Black,
-                  thickness = 0.4.dp,
+                  thickness = 0.8.dp,
                   modifier = Modifier
                       .padding(vertical = 8.dp)
                       .fillMaxWidth()
@@ -274,15 +307,13 @@ fun DetailPage(navController: NavController, modifier: Modifier = Modifier){
 }
 
 @Composable
-fun ImageSlider( modifier: Modifier = Modifier) {
+fun ImageSlider( modifier: Modifier = Modifier, photos: List<PhotoData>, placeholders:List<Int>, placeHolder:Int) {
     var currentImageIndex by remember { mutableStateOf(0) }
     var isAnimating by remember { mutableStateOf(false) }
     val coroutineScope = rememberCoroutineScope()
-    val imageList = listOf(
-        R.drawable.cat,
-        R.drawable.dog,
-        R.drawable.bird
-    )
+
+    println(placeholders)
+
 
     Column(modifier = Modifier.fillMaxSize()) {
 
@@ -298,59 +329,140 @@ fun ImageSlider( modifier: Modifier = Modifier) {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                itemsIndexed(imageList) { index, image ->
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(
+
+                if(photos.isNotEmpty()){
+                    itemsIndexed(photos) { index, image ->
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(
 //                                horizontal = 16.dp,
 //                                vertical = 16.dp
-                            )
-                            .fillMaxHeight()
-                            .background(color = Color.Transparent)
-                            .clickable {
-                                if (index != currentImageIndex && !isAnimating) {
-                                    isAnimating = true
-                                    coroutineScope.launch {
-                                        val delayMillis = 500L
-                                        // Wait for the card to change color before animating
-                                        delay(delayMillis / 2)
-                                        currentImageIndex = index
-                                        delay(delayMillis)
-                                        isAnimating = false
-                                    }
-                                }
-                            },
-
-                    ) {
-                        AsyncImage(
-                            modifier = modifier
-                                .padding(
-
-                                    horizontal = 20.dp
                                 )
-
-                                .fillMaxWidth()
                                 .fillMaxHeight()
+                                .background(color = Color.Transparent)
+                                .clickable {
+                                    if (index != currentImageIndex && !isAnimating) {
+                                        isAnimating = true
+                                        coroutineScope.launch {
+                                            val delayMillis = 500L
+                                            // Wait for the card to change color before animating
+                                            delay(delayMillis / 2)
+                                            currentImageIndex = index
+                                            delay(delayMillis)
+                                            isAnimating = false
+                                        }
+                                    }
+                                },
+
+                            ) {
+
+
+                            AsyncImage(
+                                modifier = modifier
+                                    .padding(
+
+                                        horizontal = 20.dp
+                                    )
+
+                                    .fillMaxWidth()
+                                    .fillMaxHeight()
                                 ,
-                            model = ImageRequest.Builder(context = LocalContext.current)
-                                .data(image)
-                                .crossfade(true)
-                                .build(),
+                                model = ImageRequest.Builder(context = LocalContext.current)
+                                    .data(image.url)
+                                    .crossfade(true)
+                                    .build(),
 
 
 
-                            error = painterResource(  image),
-                            placeholder = painterResource(image),
-                            contentDescription = stringResource(com.google.android.material.R.string.icon_content_description),
-                            contentScale = ContentScale.FillBounds
-                        )
+                                error = painterResource(  placeHolder),
+                                placeholder = painterResource(placeHolder),
+                                contentDescription = stringResource(com.google.android.material.R.string.icon_content_description),
+                                contentScale = ContentScale.FillBounds
+                            )
 
+                        }
                     }
+
+                }else{
+                    itemsIndexed(placeholders) { index, image ->
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(
+//                                horizontal = 16.dp,
+//                                vertical = 16.dp
+                                )
+                                .fillMaxHeight()
+                                .background(color = Color.Transparent)
+                                .clickable {
+                                    if (index != currentImageIndex && !isAnimating) {
+                                        isAnimating = true
+                                        coroutineScope.launch {
+                                            val delayMillis = 500L
+                                            // Wait for the card to change color before animating
+                                            delay(delayMillis / 2)
+                                            currentImageIndex = index
+                                            delay(delayMillis)
+                                            isAnimating = false
+                                        }
+                                    }
+                                },
+
+                            ) {
+
+                            Image(
+                                painter = painterResource(image),
+                                contentDescription = "",
+                                contentScale = ContentScale.FillWidth,
+                                                                modifier = modifier
+                                    .padding(
+
+                                        horizontal = 20.dp
+                                    )
+
+                                    .fillMaxWidth()
+                                    .fillMaxHeight()
+                            )
+//                            AsyncImage(
+//                                modifier = modifier
+//                                    .padding(
+//
+//                                        horizontal = 20.dp
+//                                    )
+//
+//                                    .fillMaxWidth()
+//                                    .fillMaxHeight()
+//                                ,
+//                                model = ImageRequest.Builder(context = LocalContext.current)
+//                                    .data(image)
+//                                    .crossfade(true)
+//                                    .build(),
+//
+//
+//
+//                                error = painterResource(  image),
+//                                placeholder = painterResource(image),
+//                                contentDescription = stringResource(com.google.android.material.R.string.icon_content_description),
+//                                contentScale = ContentScale.FillBounds
+//                            )
+
+                        }
+                    }
+
                 }
 
             }
 
         }
+    }
+}
+ fun parseJsonToPhotoList(json: String?): List<PhotoData> {
+    return try {
+        val gson = Gson()
+        val photoArray = gson.fromJson(json, Array<PhotoData>::class.java)
+        photoArray.filterNotNull()
+    } catch (e: Exception) {
+        emptyList()
     }
 }

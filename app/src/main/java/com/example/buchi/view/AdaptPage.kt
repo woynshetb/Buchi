@@ -2,27 +2,34 @@ package com.example.buchi.view
 
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Menu
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.buchi.ui.theme.BrownDeep
-import com.example.buchi.ui.theme.BrownLight
+import com.example.buchi.ui.theme.*
 import com.example.buchi.view_model.AdaptMeViewModel
 import com.example.buchi.view_model.AdaptUiState
 import com.example.buchi.view_model.BuchiViewModel
 
 @Composable
 fun AdaptPage(navController: NavController, modifier: Modifier = Modifier){
+    var nameText by remember { mutableStateOf("") }
+    var phoneText by remember { mutableStateOf("") }
+
 
     val adaptViewModel: AdaptMeViewModel = viewModel()
     val adaptUiState = adaptViewModel.adaptUiState
@@ -35,49 +42,9 @@ fun AdaptPage(navController: NavController, modifier: Modifier = Modifier){
                 .fillMaxWidth()
                 .wrapContentWidth(align = Alignment.CenterHorizontally),){
 
-            Row( modifier = Modifier.fillMaxWidth(),
+            CustomAppBar()
 
 
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-
-            ){
-                Box(
-                    modifier = modifier.width(20.dp)
-                ) {
-
-                }
-                Row() {
-                    // logo here
-                    Text(
-                        "Buchi",
-                        fontWeight = FontWeight.W900,
-                        color = BrownDeep,
-
-
-                        )
-                }
-
-                IconButton(onClick = {
-
-
-
-
-
-                }) {
-                    Icon(
-                        Icons.Rounded.Menu,
-                        modifier = modifier
-                            .size(20.dp),
-                        tint = BrownDeep,
-
-                        contentDescription = "menu"
-
-                    )
-
-
-                }
-            }
 
 
 
@@ -98,77 +65,123 @@ fun AdaptPage(navController: NavController, modifier: Modifier = Modifier){
                 
                 is AdaptUiState.Loading ->{
 
-                    CircularProgressIndicator()
+                    LoadingComposable()
+
+                }
+                is AdaptUiState.Error ->{
+                    ErrorPage(navController = navController)
 
                 }
 
                 else -> {
-                    Text(text = "not yet")
+                    Box(
+                        modifier = modifier.height(
+                            60.dp
+                        )
+                    ) {
+
+                    }
+                    Text(text = "We don't know how to reach you ", color = Color.Black, fontSize = 20.sp,
+                    )
+                    Box(
+                        modifier = modifier.height(
+                            40.dp
+                        )
+                    ) {
+
+                    }
+                    Text(text = "Place your name and phone number, we will \ncontact you asap.", color = Color.Black, )
+                    Box(
+                        modifier = modifier.height(
+                            40.dp
+                        )
+                    ) {
+
+                    }
+                    TextField(
+                        value = nameText,
+                        placeholder = {"Name"},
+
+
+                        onValueChange = {newValue->
+
+                                nameText = newValue
+
+
+                        },
+                        modifier = Modifier
+
+
+                            .fillMaxWidth()
+                            .background(
+                                color = TextFormBG
+                            ).border(
+                                width = 0.dp,
+                                color = Color.Transparent,
+
+
+                            ),
+                        textStyle = MaterialTheme.typography.body1
+                    )
+                    Box(
+                        modifier = modifier.height(
+                            24.dp
+                        )
+                    ) {
+
+                    }
+                    TextField(
+                        value = phoneText,
+                        placeholder = {"Phone Number"},
+                        onValueChange = {newValue->
+
+                                phoneText = newValue
+
+                        },
+                        modifier = Modifier
+
+
+                            .fillMaxWidth()
+                            .background(
+                                color = TextFormBG
+                            ).border(
+                                width = 0.dp,
+                        color = Color.Transparent,
+
+                    ),
+                        textStyle = MaterialTheme.typography.body1
+                    )
+
+                    Column(modifier.weight(1.0f)) {
+
+                    }
+
+
+                    Column(
+
+
+                        modifier = modifier.width(200.dp).height(50.dp).background(
+                            color = BrownWarm,
+                            shape =  RoundedCornerShape(20.dp)
+                        ).align(Alignment.CenterHorizontally).clickable {
+
+                            adaptViewModel.adaptPet(nameValue = nameText, phoneNumber=phoneText,)
+
+                            if(adaptUiState ==AdaptUiState.Success){
+                                navController.navigate("success")
+                            }
+                        }  .clip(RoundedCornerShape(20.dp)),
+                        verticalArrangement = Arrangement.Center
+                        ) {
+                        Text(text = "Send", fontSize = 20.sp, modifier = Modifier.align(Alignment.CenterHorizontally))
+                    }
+                    Column(modifier.weight(1.0f)) {
+
+                    }
                 }
             }
-            Box(
-                modifier = modifier.height(
-                    40.dp
-                )
-            ) {
 
-            }
-            Text(text = "We dont know how to reach you ", color = Color.Black, fontSize = 20.sp,
-                )
-            Box(
-                modifier = modifier.height(
-                    20.dp
-                )
-            ) {
 
-            }
-            Text(text = "Place your name and phone number, we will \ncontact you asap.", color = Color.Black, )
-            Box(
-                modifier = modifier.height(
-                    20.dp
-                )
-            ) {
-
-            }
-            TextField(
-                value = "Phone Number",
-                
-                onValueChange = {
-
-                },
-                modifier = Modifier
-
-                    .padding(horizontal = 16.dp)
-                    .background(
-                        color = BrownLight
-                    ),
-                textStyle = MaterialTheme.typography.body1
-            )
-
-            TextField(
-                value = "Name",
-                onValueChange = {
-
-                },
-                modifier = Modifier
-
-                    .padding(horizontal = 16.dp)
-                    .background(
-                        color = BrownLight
-                    ),
-                textStyle = MaterialTheme.typography.body1
-            )
-
-            
-            Button(onClick = {
-                adaptViewModel.adaptPet()
-
-                if(adaptUiState !==AdaptUiState.Error && adaptUiState!==AdaptUiState.Error ){
-                    navController.navigate("success")
-                }
-            }) {
-                Text(text = "Send")
-            }
 
 
 

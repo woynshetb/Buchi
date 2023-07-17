@@ -49,6 +49,7 @@ import coil.compose.rememberImagePainter
 import com.example.buchi.navigation.Screens
 import com.example.buchi.ui.theme.BrownDeep
 import com.example.buchi.ui.theme.BrownLight
+import com.google.gson.Gson
 
 @Composable
 
@@ -59,6 +60,9 @@ fun SearchResultListView(
 ){
     val alpha = remember { mutableStateOf(0.0f) }
 
+
+
+
     LazyColumn {
 
         itemsIndexed(pets){
@@ -68,25 +72,29 @@ fun SearchResultListView(
 
             Column(
                 modifier = modifier.clickable {
-                    navController.navigate("detail")
+
+//                    val route = "detail/${pet.type}?/$petId&petName=$petName"
+//                    navController.navigate(route)
+
+//  val route = "detail/$petId?otherArgument=$otherArgument"
+//                    navController.navigate(route)
+
+
+                    var listOfUrl = pet.photos.map{data->{
+                        data.url ?: ""
+                    } }
+
+
+                    val petPhotosToJson = Gson().toJson(listOfUrl)
+
+
+                    var route="detail/${pet.type}/${pet.pet_id}/${pet.good_with_children}/${pet.gender}/${pet.size}/${petPhotosToJson}/${pet.age}/${pet.source}";
+                    navController.navigate(route)
+                   // navController.navigate("detail/${pet.type}/${pet.pet_id}")
+
+                   // navController.navigate("detail")
                 }
             ) {
-
-                if(index ==0){
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(
-                                bottom = 20.dp
-                            ),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-//                        CustomDropDown()
-//                        CustomDropDown()
-                    }
-
-
-                }
 
 
 
@@ -146,7 +154,10 @@ fun SearchResultListView(
         }
         }
     }
-    Text(text = "hello there")
+    if(pets.isEmpty()){
+        EmptyList(navController =navController)
+    }
+
 }
 
 
@@ -165,4 +176,13 @@ fun getPlaceholderImage( type:String) : Int {
     }
 
   return imageUrl
+}
+
+private fun parseJsonToStringList(json: String?): List<String> {
+    return try {
+        val gson = Gson()
+        gson.fromJson(json, Array<String>::class.java).toList()
+    } catch (e: Exception) {
+        emptyList()
+    }
 }

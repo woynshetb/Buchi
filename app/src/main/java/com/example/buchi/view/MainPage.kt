@@ -1,22 +1,18 @@
 package com.example.buchi.view
 
-import android.os.Parcel
-import android.os.Parcelable
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
-import androidx.compose.material.SnackbarDefaults.backgroundColor
-import androidx.compose.material.icons.Icons
 
-import androidx.compose.material.icons.rounded.Menu
-
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.Icon
+import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -26,14 +22,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.buchi.model.Pet
-
-
+import androidx.navigation.navDeepLink
 import com.example.buchi.navigation.Screens
 import com.example.buchi.ui.theme.BrownDeep
-import com.example.buchi.ui.theme.BrownLight
-import com.example.iogtestproject.navigation.NavGraph
-import kotlinx.serialization.Serializer
 
 @Composable
 fun MainPage(navController: NavController, modifier: Modifier = Modifier,){
@@ -68,12 +59,52 @@ fun MainPage(navController: NavController, modifier: Modifier = Modifier,){
                 SearchInputPage(navController,modifier, selectedCategory)
             }
 
-            composable("detail") { DetailPage(navController)
+            composable("detail/{petType}/{petId}/{petGoodWithChildren}/{petGender}/{petSize}/{petPhotos}/{petAge}/{source}",
+
+                arguments = listOf(
+                    navArgument("petType") { type = NavType.StringType },
+                    navArgument("petId") { type = NavType.StringType },
+                    navArgument("petGoodWithChildren") { type = NavType.BoolType },
+                    navArgument("petGender") { type = NavType.StringType },
+                    navArgument("petSize") { type = NavType.StringType },
+                    navArgument("petPhotos") { type = NavType.StringType },
+                    navArgument("petAge") { type = NavType.StringType },
+                    navArgument("source") { type = NavType.StringType },
+
+
+
+
+
+
+
+
+
+                ),
+                deepLinks = listOf(
+                    navDeepLink { uriPattern = "myapp://detail/{petType}/{petId}/{petGoodWithChildren}/{petGender}/{petSize}/{petPhotos}/{petAge}/{source}" }
+                )
+                ) {
+
+                    backStackEntry ->
+                val petType = backStackEntry.arguments?.getString("petType")
+                val petId = backStackEntry.arguments?.getString("petId")
+               val petGoodWithChildren = backStackEntry.arguments?.getBoolean("petGoodWithChildren") ?: false
+                val petGender = backStackEntry.arguments?.getString("petGender")
+                val petSize = backStackEntry.arguments?.getString("petSize")
+                val photos = backStackEntry.arguments?.getString("petPhotos")
+                val petAge = backStackEntry.arguments?.getString("petAge")
+                val source = backStackEntry.arguments?.getString("source")
+
+                DetailPage(navController, petType = "$petType", petId = "$petId", good_with_children =petGoodWithChildren , gender = "$petGender", petSize = "$petSize", photos = "$photos", age = "$petAge", source = "$source" )
             }
             composable("adapt") { AdaptPage(navController)
             }
             composable("success") { SuccessPage(navController)
             }
+
+
+
+
 
 
 
@@ -90,7 +121,7 @@ fun BottomNavigationBar(navController: NavController, modifier: Modifier=Modifie
     val currentRoute = currentRoute(navController)
 
 
-    if(currentRoute =="home" || currentRoute =="search" || currentRoute =="favorite"){
+    if(currentRoute =="home" || currentRoute =="search" || currentRoute =="favorite"|| currentRoute =="adapt" || currentRoute =="success"){
         BottomNavigation(
             backgroundColor = Color.White,
             modifier = modifier
@@ -104,7 +135,7 @@ fun BottomNavigationBar(navController: NavController, modifier: Modifier=Modifie
 
             items.forEach { item ->
                 BottomNavigationItem(
-                    icon = { Icon(item.icon, contentDescription = "", tint = BrownDeep, modifier = modifier.size(35.dp)) },
+                    icon = { Icon(item.icon, contentDescription = "", tint = if(currentRoute == item.route)   BrownDeep  else Color.Gray, modifier = modifier.size(35.dp)) },
 
                     selected = currentRoute == item.route,
                     onClick = {
@@ -129,7 +160,6 @@ fun currentRoute(navController: NavController): String? {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     return navBackStackEntry?.destination?.route
 }
-
 
 
 

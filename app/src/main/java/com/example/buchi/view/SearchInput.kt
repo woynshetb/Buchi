@@ -67,6 +67,16 @@ fun SearchInputPage(
 
        when(searchViewModeliUiState){
            is SearchUiState.Success ->{
+               Row(
+                   modifier = Modifier.fillMaxWidth(),
+                   horizontalArrangement = Arrangement.SpaceBetween
+               ) {
+                   TypeDropDown(
+                       searchViewModel = searchViewModel
+                   )
+                   SortDropDown(searchViewModel = searchViewModel)
+
+               }
                SearchResultListView(navController = navController , pets = searchViewModeliUiState.filteredPets)
            }
            is SearchUiState.Loading ->{
@@ -792,7 +802,7 @@ fun SizeDropDown(
 
                     onClick = {
 
-                        searchViewModel.age = option
+                        searchViewModel.size = option
                         expanded = !expanded
 
                     }
