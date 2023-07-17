@@ -29,7 +29,7 @@ sealed interface SearchUiState {
 
 
 class SearchViewModel (
-   var selectedCategory:String
+
 ) : ViewModel(
 ) {
 
@@ -67,7 +67,7 @@ class SearchViewModel (
 
     var selectFromPetFinder :Boolean = false
     var selectedGender:String =""
-    var type:String=""
+    var type:String?=""
     var size:String=""
     var age:String=""
     var good_with_childern:Boolean=true
@@ -75,16 +75,16 @@ class SearchViewModel (
     var searchUiState: SearchUiState by mutableStateOf(SearchUiState.Loading)
 
     init {
-type = selectedCategory
+
 
 }
 
     fun filterPets(){
-        val params: MutableMap<String, String> = mutableMapOf()
-        params["limit"] = "20"
-        params["good_with_childern"]="$good_with_childern"
+   val params: MutableMap<String, String> = mutableMapOf()
+      params["limit"] = "20"
+        params["good_with_children"]="$good_with_childern"
         if (!type.isNullOrEmpty()) {
-            params["type"] = type
+            params["type"] = "$type"
         }
         if (!age.isNullOrEmpty()) {
             params["age"] = age

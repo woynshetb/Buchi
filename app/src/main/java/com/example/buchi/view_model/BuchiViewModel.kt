@@ -100,30 +100,6 @@ class BuchiViewModel : ViewModel() {
             }
         }
     }
-   private  fun adaptPet(){ viewModelScope.launch{
-       try {
-           val user =Customer( "woynshet",  "0964001822")
-           val response = BuchiApi.retrofitService.add(user)
-
-
-
-
-
-
-
-       }
-       catch (e:IOException){
-           println("*******************************")
-           println(e.message)
-           println("*******************************")
-
-       }
-
-
-   }
-
-
-   }
 
 
 }

@@ -37,7 +37,11 @@ fun SearchInputPage(
      selectedCategory: String?
 ){
 
-    val searchViewModel= SearchViewModel(selectedCategory = "$selectedCategory")
+
+    val searchViewModel: SearchViewModel = viewModel()
+
+    searchViewModel.type = selectedCategory
+
     val searchViewModeliUiState = searchViewModel.searchUiState
    Scaffold(
        backgroundColor = BrownLight,
@@ -99,130 +103,133 @@ fun SearchInputPage(
        horizontalAlignment = Alignment.CenterHorizontally
 
    ){
-       Box (
-           modifier = modifier.height(10.dp)
-       ){
-
-       }
-       Row(
-           modifier = Modifier.fillMaxWidth(),
-           horizontalArrangement = Arrangement.SpaceBetween
-       ) {
-           CustomDropDown()
-           CustomDropDown()
-       }
-   Box (
-       modifier = modifier.height(20.dp)
-           ){
-
-   }
-       Text(text = "Good With Children", fontSize = 16.sp, color = Color.Gray)
-       Box (
-           modifier = modifier.height(20.dp)
-       ){
-
-       }
-       SecondDropDown(
-           searchViewModel,
-           )
-       Box (
-           modifier = modifier.height(10.dp)
-       ){
-
-       }
-       Text(text = "Age", fontSize = 16.sp, color = Color.Gray)
-       Box (
-           modifier = modifier.height(10.dp)
-       ){
-
-       }
-       AgeDropDown(searchViewModel,)
-       Box (
-           modifier = modifier.height(10.dp)
-       ){
-
-       }
-       Text(text = "Gender", fontSize = 16.sp, color = Color.Gray)
-       
-       Box (
-           modifier = modifier.height(10.dp)
-       ){
-
-       }
-
-       GenderDropDown(searchViewModel)
-       Box (
-           modifier = modifier.height(10.dp)
-       ){
-
-       }
-       Text(text = "Sizes", fontSize = 16.sp, color = Color.Gray)
-
-       Box (
-           modifier = modifier.height(10.dp)
-       ){
-
-       }
-       SizeDropDown(searchViewModel = searchViewModel)
-       Box (
-           modifier = modifier.height(10.dp)
-       ){
-
-       }
-       Row(
-     horizontalArrangement = Arrangement.Start,
-           modifier = modifier.fillMaxWidth()
-       ) {
-
-           Switch(
-               checked = searchViewModel.selectFromPetFinder,
-               onCheckedChange = { searchViewModel.selectFromPetFinder = it },
-
-               colors =  SwitchDefaults.colors(
-                   checkedThumbColor = Color.LightGray, // Color when switch is checked
-                   uncheckedThumbColor =  Color.LightGray, // Color when switch is unchecked
-                   checkedTrackColor =BrownDeep, // Color for the track when switch is checked
-                   uncheckedTrackColor = Color.LightGray // Color for the track when switch is unchecked
-               )
-
-           )
-           Text(text = "include pet list listed \non petfiner too", color = Color.Black, fontSize = 14.sp)
 
 
-       }
-       IconButton(
-           modifier = modifier.align(alignment = Alignment.CenterHorizontally),
-           onClick = {
-
-               searchViewModel.filterPets()
-               if(searchViewModel.searchUiState != SearchUiState.Loading &&searchViewModel.searchUiState != SearchUiState.Error ){
-                   println(searchViewModel.searchUiState)
-
-               }else{
-
-               }
-
-//             navController.navigate(Screens)
-           }) {
-           Box(
-               modifier = Modifier
-                   .size(60.dp)
-                   .clip(CircleShape)
-                   .background(color = BrownDeep),
-               contentAlignment = Alignment.Center
-           ) {
-
-               Icon(
-                   Icons.Rounded.Search,
-                   modifier = modifier
-                       .size(50.dp),
-                   tint = BrownLight,
-
-                   contentDescription = "search"
-
-               )
-
+       when(searchViewModeliUiState){
+           is SearchUiState.Success ->{
+               SearchResultListView(navController = navController , pets = searchViewModeliUiState.filteredPets)
            }
+          else ->{
+
+              Box (
+                  modifier = modifier.height(10.dp)
+              ){
+
+              }
+              Row(
+                  modifier = Modifier.fillMaxWidth(),
+                  horizontalArrangement = Arrangement.SpaceBetween
+              ) {
+                  CustomDropDown()
+                  CustomDropDown()
+              }
+              Box (
+                  modifier = modifier.height(20.dp)
+              ){
+
+              }
+              Text(text = "Good With Children", fontSize = 16.sp, color = Color.Gray)
+              Box (
+                  modifier = modifier.height(20.dp)
+              ){
+
+              }
+              SecondDropDown(
+                  searchViewModel,
+              )
+              Box (
+                  modifier = modifier.height(10.dp)
+              ){
+
+              }
+              Text(text = "Age", fontSize = 16.sp, color = Color.Gray)
+              Box (
+                  modifier = modifier.height(10.dp)
+              ){
+
+              }
+              AgeDropDown(searchViewModel,)
+              Box (
+                  modifier = modifier.height(10.dp)
+              ){
+
+              }
+              Text(text = "Gender", fontSize = 16.sp, color = Color.Gray)
+
+              Box (
+                  modifier = modifier.height(10.dp)
+              ){
+
+              }
+
+              GenderDropDown(searchViewModel)
+              Box (
+                  modifier = modifier.height(10.dp)
+              ){
+
+              }
+              Text(text = "Sizes", fontSize = 16.sp, color = Color.Gray)
+
+              Box (
+                  modifier = modifier.height(10.dp)
+              ){
+
+              }
+              SizeDropDown(searchViewModel = searchViewModel)
+              Box (
+                  modifier = modifier.height(10.dp)
+              ){
+
+              }
+              Row(
+                  horizontalArrangement = Arrangement.Start,
+                  modifier = modifier.fillMaxWidth()
+              ) {
+
+                  Switch(
+                      checked = searchViewModel.selectFromPetFinder,
+                      onCheckedChange = { searchViewModel.selectFromPetFinder = it },
+
+                      colors =  SwitchDefaults.colors(
+                          checkedThumbColor = Color.LightGray, // Color when switch is checked
+                          uncheckedThumbColor =  Color.LightGray, // Color when switch is unchecked
+                          checkedTrackColor =BrownDeep, // Color for the track when switch is checked
+                          uncheckedTrackColor = Color.LightGray // Color for the track when switch is unchecked
+                      )
+
+                  )
+                  Text(text = "include pet list listed \non petfiner too", color = Color.Black, fontSize = 14.sp)
+
+
+              }
+              IconButton(
+                  modifier = modifier.align(alignment = Alignment.CenterHorizontally),
+                  onClick = {
+
+                      searchViewModel.filterPets()
+
+
+
+                  }) {
+                  Box(
+                      modifier = Modifier
+                          .size(60.dp)
+                          .clip(CircleShape)
+                          .background(color = BrownDeep),
+                      contentAlignment = Alignment.Center
+                  ) {
+
+                      Icon(
+                          Icons.Rounded.Search,
+                          modifier = modifier
+                              .size(50.dp),
+                          tint = BrownLight,
+
+                          contentDescription = "search"
+
+                      )
+
+                  }
 
 
 
@@ -230,9 +237,17 @@ fun SearchInputPage(
 
 
 
+
+
+              }
+
+
+          }
 
 
        }
+
+
 
 
 

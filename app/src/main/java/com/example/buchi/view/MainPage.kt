@@ -1,5 +1,7 @@
 package com.example.buchi.view
 
+import android.os.Parcel
+import android.os.Parcelable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.SnackbarDefaults.backgroundColor
@@ -24,12 +26,14 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.buchi.model.Pet
 
 
 import com.example.buchi.navigation.Screens
 import com.example.buchi.ui.theme.BrownDeep
 import com.example.buchi.ui.theme.BrownLight
 import com.example.iogtestproject.navigation.NavGraph
+import kotlinx.serialization.Serializer
 
 @Composable
 fun MainPage(navController: NavController, modifier: Modifier = Modifier,){
@@ -58,6 +62,14 @@ fun MainPage(navController: NavController, modifier: Modifier = Modifier,){
                 println(selectedCategory)
                 SearchInputPage(navController,modifier, selectedCategory)
             }
+
+            composable("detail") { DetailPage(navController)
+            }
+            composable("adapt") { AdaptPage(navController)
+            }
+            composable("success") { SuccessPage(navController)
+            }
+
 
 
         }}
@@ -112,5 +124,7 @@ fun currentRoute(navController: NavController): String? {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     return navBackStackEntry?.destination?.route
 }
+
+
 
 
