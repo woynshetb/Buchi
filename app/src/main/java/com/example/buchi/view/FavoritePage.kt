@@ -41,7 +41,7 @@ fun FavoritePage(navController: NavController, modifier :Modifier = Modifier){
      Column(
          modifier = modifier.padding()
      ) {
-
+        Text(text = "To be implemented but it is not required for this stage")
      }
 
 

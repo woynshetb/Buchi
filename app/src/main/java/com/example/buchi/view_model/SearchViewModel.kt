@@ -31,7 +31,11 @@ class SearchViewModel (
         Category("Cats", title = "Majestic cute \neven queen !", description = "seek companionship\n" +
                 "from one of the magnetic\n" +
                 "pets of all time", image = R.drawable.cat, value = "Cat",),
-        Category("Others", title = "A man's best friend \n since the begining!", description = "seek companionship \n from one of the magnetic \n pets of all time", image = R.drawable.bird, value = "Bird",),
+        Category("Bird", title = "A man's best friend \n since the begining!", description = "seek companionship \n from one of the magnetic \n pets of all time", image = R.drawable.bird, value = "Bird",)
+        ,
+
+        Category("Mice", title = "A man's best friend \n since the begining!", description = "seek companionship \n from one of the magnetic \n pets of all time", image = R.drawable.mice, value = "mice",),
+
 
         )
     var genders = listOf<Gender>(
@@ -50,6 +54,8 @@ class SearchViewModel (
 
         Age(name = "Baby", age ="baby"),
         Age(name="Puppy", age= "puppy"),
+        Age(name="Young", age= "young"),
+
         Age(name = "Medium", age ="medium"),
         Age(name = "Adult", age = "adult" ),
         Age(name = "Senior", age = "senior" ),
@@ -59,7 +65,14 @@ class SearchViewModel (
 
     var sizes= listOf<String>(
         "medium",
-        "tiny"
+        "tiny",
+        "large",
+        "xlarge",
+
+
+
+
+
 
 
     )

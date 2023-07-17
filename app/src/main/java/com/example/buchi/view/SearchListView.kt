@@ -171,8 +171,14 @@ fun getPlaceholderImage( type:String) : Int {
     else if (type =="Dog"|| type =="dog"){
         imageUrl =R.drawable.dog
     }
-    else{
+    else if (type =="Bird" || type =="bird"){
         imageUrl = R.drawable.bird
+    }
+    else if(type =="mice" || type =="Mice"){
+        imageUrl = R.drawable.mice
+    }
+    else{
+        imageUrl = R.drawable.splash_dog
     }
 
   return imageUrl

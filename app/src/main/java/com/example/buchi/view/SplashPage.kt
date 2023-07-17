@@ -30,9 +30,12 @@ fun SpashPage(modifier: Modifier=Modifier,navController: NavController){
     var title:String ="Over\n200,000 \nStray \nDOGS \non Addis Ababa \nStreets in \n2020!"
     Scaffold(
         modifier = modifier,
-  backgroundColor = BrownLight
+ backgroundColor = BrownLight
         ) { padding ->  Column(
-        modifier = modifier.padding(0.dp)
+        modifier = modifier.padding(),
+
+        verticalArrangement = Arrangement.SpaceBetween
+
 
     ) {
 
@@ -46,8 +49,8 @@ fun SpashPage(modifier: Modifier=Modifier,navController: NavController){
 
                 Image(
                     painter = painterResource(id = R.drawable.splash_dog),
-                    contentDescription = "Spash omage",
-                    contentScale = ContentScale.FillHeight,
+                    contentDescription = "Splash Image",
+                    contentScale = ContentScale.FillWidth,
                     modifier = modifier.fillMaxHeight().fillMaxWidth()
                 )
 

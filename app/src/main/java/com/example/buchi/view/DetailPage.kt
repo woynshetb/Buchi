@@ -72,11 +72,18 @@ fun DetailPage(navController: NavController, modifier: Modifier = Modifier, petT
         imageList.add( R.drawable.dog,)
         R.drawable.dog
     }
-    else{
+    else if(pet.type =="Bird"|| pet.type =="Bird") {
         imageList.add( R.drawable.bird,)
         R.drawable.bird
     }
-
+    else if(pet.type =="mice"|| pet.type =="Mice") {
+        imageList.add( R.drawable.mice,)
+        R.drawable.mice
+    }
+    else{
+        imageList.add( R.drawable.splash_dog,)
+        R.drawable.splash_dog
+    }
 
     Scaffold(
 
