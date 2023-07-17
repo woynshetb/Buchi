@@ -27,7 +27,7 @@ class SearchViewModel (
 ) : ViewModel(
 ) {
     var searchCategories:List<Category> = listOf<Category>(
-        Category("Dogs", title = "A man's best friend\nsince the beginning!", description = "seek companionship \nfrom one of the best \nhuman friend ever", image = R.drawable.dog, value = "Dog",),
+        Category("Dogs", title = "A man's best friend\nsince the beginning!", description = "seek companionship \nfrom one of the best \nhuman friend ever", image = R.drawable.dogs, value = "Dog",),
         Category("Cats", title = "Majestic cute \neven queen !", description = "seek companionship\n" +
                 "from one of the magnetic\n" +
                 "pets of all time", image = R.drawable.cat, value = "Cat",),

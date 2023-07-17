@@ -1,9 +1,6 @@
 package com.example.buchi.view
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
@@ -41,7 +38,25 @@ fun FavoritePage(navController: NavController, modifier :Modifier = Modifier){
      Column(
          modifier = modifier.padding()
      ) {
-        Text(text = "To be implemented but it is not required for this stage")
+
+         Box(
+             contentAlignment = Alignment.Center,
+             modifier = modifier.fillMaxSize()
+         ) {
+
+             Column(
+                 verticalArrangement = Arrangement.Center,
+                 horizontalAlignment = Alignment.CenterHorizontally,
+                 modifier = modifier.fillMaxSize()
+             ) {
+
+                 Spacer(modifier = Modifier.height(30.dp))
+                 Text(text = "Coming Soon", color = Color.Black)
+             }
+
+
+         }
+
      }
 
 

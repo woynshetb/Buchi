@@ -6,26 +6,26 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-
-import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Menu
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
+import androidx.compose.material.TextField
+import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.buchi.ui.theme.*
+import com.example.buchi.ui.theme.BrownLight
+import com.example.buchi.ui.theme.BrownWarm
+import com.example.buchi.ui.theme.TextFormBG
 import com.example.buchi.view_model.AdaptMeViewModel
 import com.example.buchi.view_model.AdaptUiState
-import com.example.buchi.view_model.BuchiViewModel
 
 @Composable
 fun AdaptPage(navController: NavController, modifier: Modifier = Modifier){
@@ -74,6 +74,9 @@ fun AdaptPage(navController: NavController, modifier: Modifier = Modifier){
                     ErrorPage(navController = navController)
 
                 }
+
+
+
 
                 else -> {
                     Box(

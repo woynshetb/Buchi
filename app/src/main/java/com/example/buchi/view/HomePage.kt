@@ -1,9 +1,10 @@
 package com.example.buchi.view
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -15,8 +16,6 @@ import androidx.navigation.NavController
 import com.example.buchi.ui.theme.BrownLight
 import com.example.buchi.view_model.BuchiUiState
 import com.example.buchi.view_model.BuchiViewModel
-import com.example.buchi.view_model.SearchUiState
-import com.example.buchi.view_model.SearchViewModel
 
 @Composable
 

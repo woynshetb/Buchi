@@ -2,13 +2,9 @@ package com.example.buchi.view_model
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.NavController
-
-import com.example.buchi.model.AdaptResponse
 import com.example.buchi.model.Customer
 import com.example.buchi.network.BuchiApi
 import kotlinx.coroutines.launch

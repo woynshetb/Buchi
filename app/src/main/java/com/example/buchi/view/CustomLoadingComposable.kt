@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 
 
-/** Loading Composable to show when loading the api or fetching data from somewhere */
+
 @Composable
 fun LoadingComposable(modifier: Modifier = Modifier) {
     Box(

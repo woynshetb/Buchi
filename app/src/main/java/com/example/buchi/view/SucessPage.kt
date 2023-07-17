@@ -15,10 +15,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.buchi.R
 import com.example.buchi.ui.theme.BrownDeep
 import com.example.buchi.ui.theme.BrownLight
-import com.example.buchi.view_model.AdaptUiState
 
 @Composable
 fun SuccessPage(navController: NavController, modifier: Modifier = Modifier){
