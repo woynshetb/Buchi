@@ -41,16 +41,22 @@ fun MainPage(navController: NavController, modifier: Modifier = Modifier,){
 
     val navController = rememberNavController()
 
+
     Scaffold(
         bottomBar = { BottomNavigationBar(navController) }
     ) { innerPadding ->
         NavHost(
             navController = navController,
             startDestination = "search",
+
             Modifier.padding(innerPadding)
         ) {
-            composable("home") { HomePage(navController) }
-            composable("search") { SearchPage(navController) }
+            composable("home",
+            ) { HomePage(navController) }
+            composable("search",
+
+
+                ) { SearchPage(navController) }
             composable("favorite") { FavoritePage(navController)
             }
             composable(
@@ -59,7 +65,6 @@ fun MainPage(navController: NavController, modifier: Modifier = Modifier,){
             ) {
                     backStackEntry ->
                 val selectedCategory = backStackEntry.arguments?.getString("selectedCategory")
-                println(selectedCategory)
                 SearchInputPage(navController,modifier, selectedCategory)
             }
 

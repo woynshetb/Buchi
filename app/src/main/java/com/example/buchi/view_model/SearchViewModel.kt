@@ -15,16 +15,10 @@ import kotlinx.coroutines.launch
 import java.io.IOException
 
 sealed interface SearchUiState {
-    data class Success(val filteredPets: List<Pet> = listOf(), var searchCategories:List<Category> = listOf<Category>(
-        Category("Dogs", title = "A man's best friend\nsince the beginning!", description = "seek companionship from one of the best human friend ever", image = R.drawable.dog, value = "Dog",),
-        Category("Cats", title = "Majestic cute \neven queen !", description = "seek companionship\n" +
-                "from one of the magnetic\n" +
-                "pets of all time", image = R.drawable.cat, value = "Cat",),
-        Category("Others", title = "A man's best friend \n since the begining!", description = "seek companionship \n from one of the magnetic \n pets of all time", image = R.drawable.bird, value = "Dog",),
-
-        )) : SearchUiState
+    data class Success(val filteredPets: List<Pet> = listOf(), ) : SearchUiState
     object Error : SearchUiState
     object Loading : SearchUiState
+    object Initial :SearchUiState
 }
 
 
@@ -32,7 +26,14 @@ class SearchViewModel (
 
 ) : ViewModel(
 ) {
+    var searchCategories:List<Category> = listOf<Category>(
+        Category("Dogs", title = "A man's best friend\nsince the beginning!", description = "seek companionship \nfrom one of the best \nhuman friend ever", image = R.drawable.dog, value = "Dog",),
+        Category("Cats", title = "Majestic cute \neven queen !", description = "seek companionship\n" +
+                "from one of the magnetic\n" +
+                "pets of all time", image = R.drawable.cat, value = "Cat",),
+        Category("Others", title = "A man's best friend \n since the begining!", description = "seek companionship \n from one of the magnetic \n pets of all time", image = R.drawable.bird, value = "Bird",),
 
+        )
     var genders = listOf<Gender>(
         Gender(
             name = "Female",
@@ -65,6 +66,12 @@ class SearchViewModel (
     )
 
 
+    var nearest= listOf<String>(
+        "nearest",
+        "all",
+    )
+
+
     var selectFromPetFinder :Boolean = false
     var selectedGender:String =""
     var type:String?=""
@@ -72,7 +79,12 @@ class SearchViewModel (
     var age:String=""
     var good_with_childern:Boolean=true
 
-    var searchUiState: SearchUiState by mutableStateOf(SearchUiState.Loading)
+    var nearValue :String?=""
+
+
+    var searchUiState: SearchUiState by mutableStateOf(SearchUiState.Initial)
+
+
 
     init {
 
@@ -80,6 +92,8 @@ class SearchViewModel (
 }
 
     fun filterPets(){
+        searchUiState = SearchUiState.Loading
+
    val params: MutableMap<String, String> = mutableMapOf()
       params["limit"] = "20"
         params["good_with_children"]="$good_with_childern"

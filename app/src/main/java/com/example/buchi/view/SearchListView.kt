@@ -81,8 +81,8 @@ fun SearchResultListView(
                             ),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        CustomDropDown()
-                        CustomDropDown()
+//                        CustomDropDown()
+//                        CustomDropDown()
                     }
 
 

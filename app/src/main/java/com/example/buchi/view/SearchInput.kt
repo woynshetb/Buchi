@@ -1,34 +1,31 @@
 package com.example.buchi.view
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
-import androidx.compose.material.icons.rounded.Menu
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.buchi.navigation.Screens
 import com.example.buchi.ui.theme.BrownDeep
 import com.example.buchi.ui.theme.BrownLight
-import com.example.buchi.view_model.BuchiViewModel
+import com.example.buchi.ui.theme.BrownPeru
 import com.example.buchi.view_model.SearchUiState
 import com.example.buchi.view_model.SearchViewModel
+
 
 @Composable
 fun SearchInputPage(
@@ -52,45 +49,8 @@ fun SearchInputPage(
                .fillMaxWidth()
                .wrapContentWidth(align = Alignment.CenterHorizontally),){
 
-           Row( modifier = Modifier.fillMaxWidth(),
+           CustomAppBar()
 
-
-               horizontalArrangement = Arrangement.SpaceBetween,
-               verticalAlignment = Alignment.CenterVertically
-
-           ){
-               Box(
-                   modifier = modifier.width(20.dp)
-               ) {
-
-               }
-               Row() {
-                   // logo here
-                   Text(
-                       "Buchi",
-                       fontWeight = FontWeight.W900,
-                       color = BrownDeep,
-
-
-                       )
-               }
-
-               IconButton(onClick = {
-
-               }) {
-                   Icon(
-                       Icons.Rounded.Menu,
-                       modifier = modifier
-                           .size(20.dp),
-                       tint = BrownDeep,
-
-                       contentDescription = "menu"
-
-                   )
-
-
-               }
-           }
 
 
 
@@ -99,7 +59,7 @@ fun SearchInputPage(
 
        },
    ) {padding ->  Column (
-       modifier.padding(10.dp),
+       modifier.padding(24.dp),
        horizontalAlignment = Alignment.CenterHorizontally
 
    ){
@@ -109,7 +69,10 @@ fun SearchInputPage(
            is SearchUiState.Success ->{
                SearchResultListView(navController = navController , pets = searchViewModeliUiState.filteredPets)
            }
-          else ->{
+           is SearchUiState.Loading ->{
+               LoadingComposable()
+           }
+           else ->{
 
               Box (
                   modifier = modifier.height(10.dp)
@@ -120,17 +83,20 @@ fun SearchInputPage(
                   modifier = Modifier.fillMaxWidth(),
                   horizontalArrangement = Arrangement.SpaceBetween
               ) {
-                  CustomDropDown()
-                  CustomDropDown()
+                  TypeDropDown(
+                       searchViewModel = searchViewModel
+                  )
+                  SortDropDown(searchViewModel = searchViewModel)
+
               }
               Box (
-                  modifier = modifier.height(20.dp)
+                  modifier = modifier.height(40.dp)
               ){
 
               }
               Text(text = "Good With Children", fontSize = 16.sp, color = Color.Gray)
               Box (
-                  modifier = modifier.height(20.dp)
+                  modifier = modifier.height(6.dp)
               ){
 
               }
@@ -138,68 +104,77 @@ fun SearchInputPage(
                   searchViewModel,
               )
               Box (
-                  modifier = modifier.height(10.dp)
+                  modifier = modifier.height(20.dp)
               ){
 
               }
-              Text(text = "Age", fontSize = 16.sp, color = Color.Gray)
+              Text(text = "Age", fontSize = 16.sp, color = Color.Black)
               Box (
-                  modifier = modifier.height(10.dp)
+                  modifier = modifier.height(6.dp)
               ){
 
               }
               AgeDropDown(searchViewModel,)
               Box (
-                  modifier = modifier.height(10.dp)
+                  modifier = modifier.height(20.dp)
               ){
 
               }
               Text(text = "Gender", fontSize = 16.sp, color = Color.Gray)
 
               Box (
-                  modifier = modifier.height(10.dp)
+                  modifier = modifier.height(6.dp)
               ){
 
               }
 
               GenderDropDown(searchViewModel)
               Box (
-                  modifier = modifier.height(10.dp)
+                  modifier = modifier.height(20.dp)
               ){
 
               }
               Text(text = "Sizes", fontSize = 16.sp, color = Color.Gray)
 
               Box (
-                  modifier = modifier.height(10.dp)
+                  modifier = modifier.height(6.dp)
               ){
 
               }
               SizeDropDown(searchViewModel = searchViewModel)
               Box (
-                  modifier = modifier.height(10.dp)
+                  modifier = modifier.height(20.dp)
               ){
 
               }
               Row(
                   horizontalArrangement = Arrangement.Start,
-                  modifier = modifier.fillMaxWidth()
+
+                  modifier = modifier.fillMaxWidth(),
+                  verticalAlignment = Alignment.CenterVertically
               ) {
 
                   Switch(
                       checked = searchViewModel.selectFromPetFinder,
-                      onCheckedChange = { searchViewModel.selectFromPetFinder = it },
+                      onCheckedChange = { isChecked ->
+                          searchViewModel.selectFromPetFinder = !searchViewModel.selectFromPetFinder
+                      },
 
                       colors =  SwitchDefaults.colors(
-                          checkedThumbColor = Color.LightGray, // Color when switch is checked
-                          uncheckedThumbColor =  Color.LightGray, // Color when switch is unchecked
-                          checkedTrackColor =BrownDeep, // Color for the track when switch is checked
-                          uncheckedTrackColor = Color.LightGray // Color for the track when switch is unchecked
+                          checkedThumbColor = Color.LightGray,
+                          uncheckedThumbColor =  Color.LightGray,
+                          checkedTrackColor =BrownDeep,
+                          uncheckedTrackColor = Color.LightGray
                       )
 
                   )
-                  Text(text = "include pet list listed \non petfiner too", color = Color.Black, fontSize = 14.sp)
+                  Text(text = "Include pet list listed \non pet finer too", color = Color.Black, fontSize = 14.sp)
 
+
+              }
+              Box (
+                  modifier = modifier.height(20.dp)
+              ){
 
               }
               IconButton(
@@ -211,32 +186,32 @@ fun SearchInputPage(
 
 
                   }) {
-                  Box(
-                      modifier = Modifier
-                          .size(60.dp)
-                          .clip(CircleShape)
-                          .background(color = BrownDeep),
-                      contentAlignment = Alignment.Center
+                  Column(
+                      verticalArrangement = Arrangement.Center,
+                      horizontalAlignment = Alignment.CenterHorizontally
                   ) {
+                      Box(
+                          modifier = Modifier
+                              .size(60.dp)
+                              .clip(CircleShape)
+                              .background(color = BrownDeep),
+                          contentAlignment = Alignment.Center
+                      ) {
 
-                      Icon(
-                          Icons.Rounded.Search,
-                          modifier = modifier
-                              .size(50.dp),
-                          tint = BrownLight,
+                          Icon(
+                              Icons.Rounded.Search,
+                              modifier = modifier
+                                  .size(50.dp),
+                              tint = BrownLight,
 
-                          contentDescription = "search"
+                              contentDescription = "search"
 
-                      )
+                          )
 
+                      }
+
+                      Text(text = "Look", color = BrownPeru, fontSize = 20.sp)
                   }
-
-
-
-
-
-
-
 
 
               }
@@ -267,12 +242,20 @@ fun SearchInputPage(
 
 
 @Composable
-fun CustomDropDown(modifier: Modifier = Modifier ){
-    var selectedOption by remember { mutableStateOf("Option 1") }
+fun TypeDropDown(modifier: Modifier = Modifier , searchViewModel: SearchViewModel, ){
 
-   val options = listOf("Option 1", "Option 2", "Option 3")
+
+    var options = searchViewModel.searchCategories
+
+
+
+
+
+
+
+
     var expanded by remember { mutableStateOf(false) }
-    var isChecked by remember { mutableStateOf(false) }
+
 
 
 
@@ -295,7 +278,7 @@ fun CustomDropDown(modifier: Modifier = Modifier ){
            modifier= modifier
                .padding(
                    horizontal = 20.dp,
-                   vertical = 6.dp
+                   vertical = 10.dp
                )
                .fillMaxWidth()
                .align(Alignment.Center)
@@ -305,7 +288,7 @@ fun CustomDropDown(modifier: Modifier = Modifier ){
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text("$selectedOption", color = BrownDeep, fontSize = 14.sp)
+            Text("${searchViewModel.type}", color = BrownDeep, fontSize = 14.sp)
 
                 if(expanded){
                     Icon(  Icons.Default.KeyboardArrowUp, contentDescription = null, tint =BrownDeep)
@@ -327,7 +310,7 @@ fun CustomDropDown(modifier: Modifier = Modifier ){
 
                onDismissRequest = { expanded = false },
                modifier = modifier
-                   .background(Color.Transparent,)
+                   .background(Color.White,)
                    .width(150.dp)
 
                    .padding(10.dp)
@@ -344,12 +327,12 @@ fun CustomDropDown(modifier: Modifier = Modifier ){
                            .clip(RoundedCornerShape(20.dp)),
 
                        onClick = {
-                           selectedOption = option
+                           searchViewModel.type = option.value
                            expanded = !expanded
 
                        }
                    ) {
-                       Text(option, color = BrownDeep, fontSize = 12.sp)
+                       Text(option.value, color = BrownPeru, fontSize = 12.sp)
 
                        Box(modifier =modifier.width(
                            40.dp
@@ -364,15 +347,19 @@ fun CustomDropDown(modifier: Modifier = Modifier ){
 
                        ) {
                            Switch(
-                               checked = isChecked,
-                               onCheckedChange = { isChecked = it },
-                               modifier = Modifier
-                                   .fillMaxSize(),
+                               checked = searchViewModel.type == option.value,
+                               onCheckedChange = { isChecked ->
+                                   searchViewModel.type = option.value
+                                   expanded = !expanded
+                               },
+                               modifier = modifier
+                                   .width(10.dp)
+                                   .height(10.dp),
                                colors =  SwitchDefaults.colors(
-                                   checkedThumbColor = Color.LightGray, // Color when switch is checked
-                                   uncheckedThumbColor =  Color.LightGray, // Color when switch is unchecked
-                                   checkedTrackColor =BrownDeep, // Color for the track when switch is checked
-                                   uncheckedTrackColor = Color.LightGray // Color for the track when switch is unchecked
+                                   checkedThumbColor = Color.LightGray,
+                                   uncheckedThumbColor =  Color.LightGray,
+                                   checkedTrackColor =BrownDeep,
+                                   uncheckedTrackColor = Color.LightGray
                                )
 
                            )
@@ -401,12 +388,17 @@ fun SecondDropDown(
     var expanded by remember { mutableStateOf(false) }
 
 
+    val configuration = LocalConfiguration.current
+
+    val screenHeight = configuration.screenHeightDp.dp
+    val screenWidth = configuration.screenWidthDp.dp
+    val dropdownWidth = (screenWidth * 0.9f)
 
     Box(
         modifier = modifier
             .clip(RoundedCornerShape(8.dp))
+
             .fillMaxWidth()
-            .width(150.dp)
             .clickable {
                 expanded = !expanded
             }
@@ -418,7 +410,7 @@ fun SecondDropDown(
             modifier= modifier
                 .padding(
                     horizontal = 20.dp,
-                    vertical = 6.dp
+                    vertical = 12.dp
                 )
                 .fillMaxWidth()
                 .align(Alignment.Center)
@@ -450,11 +442,11 @@ fun SecondDropDown(
 
             onDismissRequest = { expanded = false },
             modifier = modifier
-                .background(Color.Transparent,)
-                .fillMaxWidth()
-
+                .width(dropdownWidth)
+                .background(Color.White,)
                 .padding(10.dp)
                 .clip(RoundedCornerShape(20.dp))
+
 
 
 
@@ -464,7 +456,8 @@ fun SecondDropDown(
                     modifier = modifier
                         .background(Color.Transparent,)
                         .fillMaxWidth()
-                        .clip(RoundedCornerShape(20.dp)),
+                        .clip(RoundedCornerShape(20.dp))
+                        .align(Alignment.CenterHorizontally),
 
                     onClick = {
 
@@ -505,6 +498,12 @@ fun AgeDropDown(
 
     var expanded by remember { mutableStateOf(false) }
 
+    val configuration = LocalConfiguration.current
+
+    val screenHeight = configuration.screenHeightDp.dp
+    val screenWidth = configuration.screenWidthDp.dp
+    val dropdownWidth = (screenWidth * 0.9f)
+
 
 
     Box(
@@ -523,7 +522,7 @@ fun AgeDropDown(
             modifier= modifier
                 .padding(
                     horizontal = 20.dp,
-                    vertical = 6.dp
+                    vertical = 10.dp
                 )
                 .fillMaxWidth()
                 .align(Alignment.Center)
@@ -555,10 +554,13 @@ fun AgeDropDown(
 
             onDismissRequest = { expanded = false },
             modifier = modifier
-                .background(Color.Transparent,)
-                .fillMaxWidth()
+                .background(Color.White,)
+                .width(dropdownWidth)
 
-                .padding(10.dp)
+                .padding(
+                    horizontal = 20.dp,
+                    vertical = 10.dp
+                )
                 .clip(RoundedCornerShape(20.dp))
 
 
@@ -567,7 +569,7 @@ fun AgeDropDown(
             options.forEach { option ->
                 DropdownMenuItem(
                     modifier = modifier
-                        .background(Color.Transparent,)
+                        .background(Color.White,)
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(20.dp)),
 
@@ -609,13 +611,18 @@ fun GenderDropDown(
 
     var expanded by remember { mutableStateOf(false) }
 
+    val configuration = LocalConfiguration.current
+
+    val screenHeight = configuration.screenHeightDp.dp
+    val screenWidth = configuration.screenWidthDp.dp
+    val dropdownWidth = (screenWidth * 0.9f)
+
 
 
     Box(
         modifier = modifier
             .clip(RoundedCornerShape(8.dp))
             .fillMaxWidth()
-            .width(150.dp)
             .clickable {
                 expanded = !expanded
             }
@@ -627,7 +634,7 @@ fun GenderDropDown(
             modifier= modifier
                 .padding(
                     horizontal = 20.dp,
-                    vertical = 6.dp
+                    vertical = 10.dp
                 )
                 .fillMaxWidth()
                 .align(Alignment.Center)
@@ -659,8 +666,8 @@ fun GenderDropDown(
 
             onDismissRequest = { expanded = false },
             modifier = modifier
-                .background(Color.Transparent,)
-                .fillMaxWidth()
+                .background(Color.White,)
+                .width(dropdownWidth)
 
                 .padding(10.dp)
                 .clip(RoundedCornerShape(20.dp))
@@ -671,7 +678,7 @@ fun GenderDropDown(
             options.forEach { option ->
                 DropdownMenuItem(
                     modifier = modifier
-                        .background(Color.Transparent,)
+                        .background(Color.White,)
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(20.dp)),
 
@@ -708,7 +715,11 @@ fun SizeDropDown(
     var options = searchViewModel.sizes
 
 
+    val configuration = LocalConfiguration.current
 
+    val screenHeight = configuration.screenHeightDp.dp
+    val screenWidth = configuration.screenWidthDp.dp
+    val dropdownWidth = (screenWidth * 0.9f)
 
 
     var expanded by remember { mutableStateOf(false) }
@@ -719,7 +730,7 @@ fun SizeDropDown(
         modifier = modifier
             .clip(RoundedCornerShape(8.dp))
             .fillMaxWidth()
-            .width(150.dp)
+
             .clickable {
                 expanded = !expanded
             }
@@ -731,7 +742,7 @@ fun SizeDropDown(
             modifier= modifier
                 .padding(
                     horizontal = 20.dp,
-                    vertical = 6.dp
+                    vertical = 10.dp
                 )
                 .fillMaxWidth()
                 .align(Alignment.Center)
@@ -763,8 +774,8 @@ fun SizeDropDown(
 
             onDismissRequest = { expanded = false },
             modifier = modifier
-                .background(Color.Transparent,)
-                .fillMaxWidth()
+                .background(Color.White,)
+                .width(dropdownWidth)
 
                 .padding(10.dp)
                 .clip(RoundedCornerShape(20.dp))
@@ -775,7 +786,7 @@ fun SizeDropDown(
             options.forEach { option ->
                 DropdownMenuItem(
                     modifier = modifier
-                        .background(Color.Transparent,)
+                        .background(Color.White,)
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(20.dp)),
 
@@ -801,4 +812,141 @@ fun SizeDropDown(
             }
         }
     }
+}
+
+
+@Composable
+fun SortDropDown(modifier: Modifier = Modifier , searchViewModel: SearchViewModel, ){
+
+
+    var options = searchViewModel.nearest
+
+
+
+
+
+
+
+
+    var expanded by remember { mutableStateOf(false) }
+
+
+
+
+    Box(
+        modifier = Modifier
+            .clip(RoundedCornerShape(8.dp))
+            .width(150.dp)
+
+            .background(Color.White)
+
+//                modifier = Modifier
+//                .width(150.dp)
+//            .background(Color.White)
+//
+//            .clip(RoundedCornerShape(20.dp))
+
+    ) {
+        Row(
+
+            modifier= modifier
+                .padding(
+                    horizontal = 20.dp,
+                    vertical = 10.dp
+                )
+                .fillMaxWidth()
+                .align(Alignment.Center)
+                .clickable {
+                    expanded = !expanded
+                },
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Column() {
+                Text(text = "Sort by", color = Color.Black, fontSize = 10.sp)
+                Text("${searchViewModel.nearValue}", color = BrownDeep, fontSize = 14.sp)
+            }
+
+            if(expanded){
+                Icon(  Icons.Default.KeyboardArrowUp, contentDescription = null, tint =BrownDeep)
+
+            }
+            else{
+                Icon(  Icons.Default.KeyboardArrowDown, contentDescription = null, tint = BrownDeep)
+
+            }
+
+
+
+        }
+
+
+
+        DropdownMenu(
+            expanded = expanded,
+
+            onDismissRequest = { expanded = false },
+            modifier = modifier
+                .background(Color.White,)
+                .width(150.dp)
+
+                .padding(10.dp)
+                .clip(RoundedCornerShape(20.dp))
+
+
+
+        ) {
+            options.forEach { option ->
+                DropdownMenuItem(
+                    modifier = modifier
+                        .background(Color.Transparent,)
+                        .width(170.dp)
+                        .clip(RoundedCornerShape(20.dp)),
+
+                    onClick = {
+                        searchViewModel.nearValue = option
+                        expanded = !expanded
+
+                    }
+                ) {
+                    Text(option, color = BrownPeru, fontSize = 12.sp)
+
+                    Box(modifier =modifier.width(
+                        40.dp
+                    )
+
+                    ) {
+
+                    }
+                    Box(
+                        modifier = modifier
+                            .size(10.dp)
+
+                    ) {
+                        Switch(
+                            checked = searchViewModel.type == option,
+                            onCheckedChange = { isChecked ->
+                                searchViewModel.nearValue = option
+                                expanded = !expanded
+                            },
+                            modifier = modifier
+                                .width(10.dp)
+                                .height(10.dp),
+                            colors =  SwitchDefaults.colors(
+                                checkedThumbColor = Color.LightGray,
+                                uncheckedThumbColor =  Color.LightGray,
+                                checkedTrackColor =BrownDeep,
+                                uncheckedTrackColor = Color.LightGray
+                            )
+
+                        )
+                    }
+//
+                }
+            }
+        }
+    }
+
+
+
 }

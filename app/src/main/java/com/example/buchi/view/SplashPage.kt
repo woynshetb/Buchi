@@ -22,6 +22,7 @@ import com.example.buchi.R
 import com.example.buchi.navigation.Screens
 import com.example.buchi.ui.theme.BrownDeep
 import com.example.buchi.ui.theme.BrownLight
+import com.example.buchi.ui.theme.BrownWarm
 
 
 @Composable
@@ -32,87 +33,102 @@ fun SpashPage(modifier: Modifier=Modifier,navController: NavController){
   backgroundColor = BrownLight
         ) { padding ->  Column(
         modifier = modifier.padding(0.dp)
+
     ) {
 
 
-       Box(
 
-       ) {
-           Image(
-               painter = painterResource(id = R.drawable.splash_dog),
-               contentDescription = "Spash omage",
-               contentScale = ContentScale.FillWidth,
-               modifier = modifier.height(300.dp)
-           )
+        Column(modifier.weight(3f)) {
+            Box(
+
+            ) {
 
 
-           Text(text = title, fontSize = 30.sp, fontWeight = FontWeight.W900, color = Color(0xff964B00),  modifier = modifier.padding(20.dp))
-       }
+                Image(
+                    painter = painterResource(id = R.drawable.splash_dog),
+                    contentDescription = "Spash omage",
+                    contentScale = ContentScale.FillHeight,
+                    modifier = modifier.fillMaxHeight().fillMaxWidth()
+                )
 
 
-       Column(
-           modifier = modifier.padding(
-               start = 20.dp, end = 100.dp, top = 36.dp, bottom = 56.dp
-           )
-       ) {
-           Text(text = "Be part of the Solution", fontSize = 20.sp, fontWeight = FontWeight.W900, color = Color.Black)
-           Box(
-               modifier = modifier.height(20.dp)
-           )
-           Text(
+                Text(text = title, fontSize = 40.sp, fontWeight = FontWeight.W900, color = BrownWarm,modifier = modifier.padding(20.dp)  )
+            }
 
-               text = "Adopt a Stray pet to decrease the number of stray pets on the street for the safety of every one.",
-               fontSize = 16.sp,
-               textAlign = TextAlign.Left,
-               color = Color.Black
+        }
 
 
 
-               )
-           Box(
-               modifier = modifier.height(10.dp)
-           )
-           Text(text = "Start your Journey of finding your companion now using Buchi app",
-               fontSize = 16.sp,
-               textAlign = TextAlign.Left, color = Color.Black)
-       }
-
-
-    
-
-IconButton(
-modifier = modifier.align(alignment = Alignment.CenterHorizontally),
-    onClick = {
-        navController.navigate(Screens.MAIN.route)
-    }) {
-    Box(
-        modifier = Modifier
-            .size(60.dp)
-            .clip(CircleShape)
-            .background(color = BrownDeep),
-        contentAlignment = Alignment.Center
+Column(modifier.weight(3f)) {
+    Column(
+        modifier = modifier.padding(
+            start = 20.dp, end = 90.dp, top = 36.dp, bottom = 56.dp
+        )
     ) {
 
-        Icon(
-            Icons.Rounded.Search,
-            modifier = modifier
-                .size(50.dp),
-            tint = BrownLight,
 
-            contentDescription = "search"
+
+        Text(text = "Be part of the Solution", fontSize = 20.sp, fontWeight = FontWeight.W900, color = Color.Black)
+        Box(
+            modifier = modifier.height(20.dp)
+        )
+        Text(
+
+            text = "Adopt a Stray pet to decrease the number of stray pets on the street for the safety of every one.",
+            fontSize = 16.sp,
+            textAlign = TextAlign.Left,
+            color = Color.Black
+
+
 
         )
+        Box(
+            modifier = modifier.height(10.dp)
+        )
 
+        Text(text = "Start your Journey of finding your companion now using Buchi app",
+            fontSize = 16.sp,
+            textAlign = TextAlign.Left,
+            color = Color.Black)
     }
 
 
 
 
+    IconButton(
+        modifier = modifier.align(alignment = Alignment.CenterHorizontally),
+        onClick = {
+            navController.navigate(Screens.MAIN.route)
+        }) {
+        Box(
+            modifier = Modifier
+                .size(60.dp)
+                .clip(CircleShape)
+                .background(color = BrownDeep),
+            contentAlignment = Alignment.Center
+        ) {
+
+            Icon(
+                Icons.Rounded.Search,
+                modifier = modifier
+                    .size(50.dp),
+                tint = BrownLight,
+
+                contentDescription = "search"
+
+            )
+
+        }
 
 
 
 
 
+
+
+
+
+    }
 }
 
 

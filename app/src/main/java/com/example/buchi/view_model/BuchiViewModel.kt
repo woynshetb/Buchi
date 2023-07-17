@@ -19,14 +19,7 @@ import org.json.JSONObject
 import java.io.IOException
 
 sealed interface BuchiUiState {
-    data class Success(val pets: List<Pet>,var searchCategories:List<Category> = listOf<Category>(
-        Category("Dogs", title = "A man's best friend\nsince the beginning!", description = "seek companionship from one of the best human friend ever", image = R.drawable.dog, value = "Dog",),
-        Category("Cats", title = "Majestic cute \neven queen !", description = "seek companionship\n" +
-                "from one of the magnetic\n" +
-                "pets of all time", image = R.drawable.cat, value = "Cat",),
-        Category("Others", title = "A man's best friend \n since the begining!", description = "seek companionship \n from one of the magnetic \n pets of all time", image = R.drawable.bird, value = "Dog",),
-
-    )) : BuchiUiState
+    data class Success(val pets: List<Pet>,) : BuchiUiState
     object Error : BuchiUiState
     object Loading : BuchiUiState
 }
@@ -35,15 +28,18 @@ sealed interface BuchiUiState {
 
 class BuchiViewModel : ViewModel() {
 
-
-
-    var gender:String =""
-    var type:String=""
-    var size:String=""
-    var age:String=""
-    var good_with_childern:Boolean=true
     var buchiUiState: BuchiUiState by mutableStateOf(BuchiUiState.Loading)
         private set
+
+
+    var searchCategories:List<Category> = listOf<Category>(
+        Category("Dogs", title = "A man's best friend\nsince the beginning!", description = "seek companionship \nfrom one of the best \nhuman friend ever", image = R.drawable.dog, value = "Dog",),
+        Category("Cats", title = "Majestic cute \neven queen !", description = "seek companionship\n" +
+                "from one of the magnetic\n" +
+                "pets of all time", image = R.drawable.cat, value = "Cat",),
+        Category("Others", title = "A man's best friend \n since the begining!", description = "seek companionship \n from one of the magnetic \n pets of all time", image = R.drawable.bird, value = "Bird",),
+
+        )
 
 
     init {
@@ -64,38 +60,6 @@ class BuchiViewModel : ViewModel() {
                 )
                 BuchiUiState.Success(pets = listResult.pets)
             }catch (e: IOException){
-                BuchiUiState.Error
-            }
-        }
-    }
-
-    private fun filterPets(){
-        val params: MutableMap<String, String> = mutableMapOf()
-        params["limit"] = "20"
-        params["good_with_childern"]="$good_with_childern"
-        if (!type.isNullOrEmpty()) {
-            params["type"] = type
-        }
-        if (!age.isNullOrEmpty()) {
-            params["age"] = age
-        }
-        if (!gender.isNullOrEmpty()) {
-            params["gender"] = gender
-        }
-        if (!size.isNullOrEmpty()) {
-            params["size"] = size
-        }
-
-
-
-
-        viewModelScope.launch {
-            buchiUiState = try {
-                val  listResult = BuchiApi.retrofitService.getFilteredPets(
-           params=params )
-                BuchiUiState.Success(pets = listResult.pets)
-            }catch (e: IOException){
-                println(e)
                 BuchiUiState.Error
             }
         }

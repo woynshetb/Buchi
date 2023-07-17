@@ -15,6 +15,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.buchi.R
 import com.example.buchi.ui.theme.BrownDeep
 import com.example.buchi.ui.theme.BrownLight
 import com.example.buchi.view_model.AdaptUiState
@@ -91,7 +92,12 @@ Scaffold(
  Text(text = "Congratulation", color = BrownDeep, fontSize = 30.sp, fontWeight = FontWeight.W900 )
         Text(text = "We will set up a meeting with your companion soon :)")
         Text(text = "Browse for more", color = BrownDeep, modifier = modifier.clickable {
-            navController.navigate("search")
+
+
+
+            navController.popBackStack("${ navController.graph.startDestinationRoute}", inclusive = false)
+
+
         })
     }
 }
