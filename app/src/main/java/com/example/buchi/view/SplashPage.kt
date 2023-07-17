@@ -48,14 +48,14 @@ fun SpashPage(modifier: Modifier=Modifier,navController: NavController){
 
 
                 Image(
-                    painter = painterResource(id = R.drawable.splash_dog),
+                    painter = painterResource(id = R.drawable.dogs),
                     contentDescription = "Splash Image",
-                    contentScale = ContentScale.FillWidth,
-                    modifier = modifier.fillMaxHeight().fillMaxWidth()
+                    contentScale = ContentScale.FillBounds,
+                    modifier = modifier.fillMaxHeight()
                 )
 
 
-                Text(text = title, fontSize = 40.sp, fontWeight = FontWeight.W900, color = BrownWarm,modifier = modifier.padding(20.dp)  )
+                Text(text = title, fontSize = 40.sp, fontWeight = FontWeight.W900, color = BrownLight,modifier = modifier.padding(20.dp)  )
             }
 
         }

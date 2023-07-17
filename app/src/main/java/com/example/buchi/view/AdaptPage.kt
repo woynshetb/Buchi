@@ -15,7 +15,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -100,7 +102,21 @@ fun AdaptPage(navController: NavController, modifier: Modifier = Modifier){
                     }
                     TextField(
                         value = nameText,
-                        placeholder = {"Name"},
+                        placeholder = {
+                            Box(
+                                modifier = Modifier.fillMaxWidth(),
+                                contentAlignment = androidx.compose.ui.Alignment.Center
+                            ) {
+                                Text(
+                                    text = "Name",
+                                    textAlign = TextAlign.Center,
+                                    color = Color.White,
+                                )
+                            }
+
+
+                            },
+
 
 
                         onValueChange = {newValue->
@@ -121,7 +137,7 @@ fun AdaptPage(navController: NavController, modifier: Modifier = Modifier){
 
 
                             ),
-                        textStyle = MaterialTheme.typography.body1
+                        textStyle = TextStyle(textAlign = TextAlign.Center),
                     )
                     Box(
                         modifier = modifier.height(
@@ -132,7 +148,23 @@ fun AdaptPage(navController: NavController, modifier: Modifier = Modifier){
                     }
                     TextField(
                         value = phoneText,
-                        placeholder = {"Phone Number"},
+
+                        placeholder = {
+                            Box(
+                                modifier = Modifier.fillMaxWidth(),
+                                contentAlignment = androidx.compose.ui.Alignment.Center
+                            ) {
+                                Text(
+                                    text = "Phone Number",
+                                    textAlign = TextAlign.Center,
+                                    color = Color.White,
+                                )
+                            }
+
+
+                            },
+
+
                         onValueChange = {newValue->
 
                                 phoneText = newValue
@@ -149,7 +181,7 @@ fun AdaptPage(navController: NavController, modifier: Modifier = Modifier){
                         color = Color.Transparent,
 
                     ),
-                        textStyle = MaterialTheme.typography.body1
+                        textStyle = TextStyle(textAlign = TextAlign.Center),
                     )
 
                     Column(modifier.weight(1.0f)) {
