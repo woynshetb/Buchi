@@ -63,7 +63,7 @@ fun SearchResultListView(
                     val petPhotosToJson = Gson().toJson(listOfUrl)
 
 
-                    var route="detail/${pet.type}/${pet.pet_id}/${pet.good_with_children}/${pet.gender}/${pet.size}/${petPhotosToJson}/${pet.age}/${pet.source}";
+                    var route="detail/${pet.type}/${pet.good_with_children}/${pet.gender}/${pet.size}/${petPhotosToJson}/${pet.age}/${pet.source}";
                     navController.navigate(route)
                    // navController.navigate("detail/${pet.type}/${pet.pet_id}")
 

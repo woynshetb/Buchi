@@ -9,7 +9,6 @@ data class Pet(
     val size :String,
     val age :String,
     var good_with_children:Boolean,
-    var pet_id:String,
     var source:String,
     val photos: List<PhotoData>
 )

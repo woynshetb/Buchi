@@ -59,11 +59,11 @@ fun MainPage(navController: NavController, modifier: Modifier = Modifier,){
                 SearchInputPage(navController,modifier, selectedCategory)
             }
 
-            composable("detail/{petType}/{petId}/{petGoodWithChildren}/{petGender}/{petSize}/{petPhotos}/{petAge}/{source}",
+            composable("detail/{petType}/{petGoodWithChildren}/{petGender}/{petSize}/{petPhotos}/{petAge}/{source}",
 
                 arguments = listOf(
                     navArgument("petType") { type = NavType.StringType },
-                    navArgument("petId") { type = NavType.StringType },
+
                     navArgument("petGoodWithChildren") { type = NavType.BoolType },
                     navArgument("petGender") { type = NavType.StringType },
                     navArgument("petSize") { type = NavType.StringType },
@@ -73,21 +73,15 @@ fun MainPage(navController: NavController, modifier: Modifier = Modifier,){
 
 
 
-
-
-
-
-
-
                 ),
                 deepLinks = listOf(
-                    navDeepLink { uriPattern = "myapp://detail/{petType}/{petId}/{petGoodWithChildren}/{petGender}/{petSize}/{petPhotos}/{petAge}/{source}" }
+                    navDeepLink { uriPattern = "myapp://detail/{petType}/{petGoodWithChildren}/{petGender}/{petSize}/{petPhotos}/{petAge}/{source}" }
                 )
                 ) {
 
                     backStackEntry ->
                 val petType = backStackEntry.arguments?.getString("petType")
-                val petId = backStackEntry.arguments?.getString("petId")
+
                val petGoodWithChildren = backStackEntry.arguments?.getBoolean("petGoodWithChildren") ?: false
                 val petGender = backStackEntry.arguments?.getString("petGender")
                 val petSize = backStackEntry.arguments?.getString("petSize")
@@ -95,7 +89,7 @@ fun MainPage(navController: NavController, modifier: Modifier = Modifier,){
                 val petAge = backStackEntry.arguments?.getString("petAge")
                 val source = backStackEntry.arguments?.getString("source")
 
-                DetailPage(navController, petType = "$petType", petId = "$petId", good_with_children =petGoodWithChildren , gender = "$petGender", petSize = "$petSize", photos = "$photos", age = "$petAge", source = "$source" )
+                DetailPage(navController, petType = "$petType",  good_with_children =petGoodWithChildren , gender = "$petGender", petSize = "$petSize", photos = "$photos", age = "$petAge", source = "$source" )
             }
             composable("adapt") { AdaptPage(navController)
             }

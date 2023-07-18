@@ -36,7 +36,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
-fun DetailPage(navController: NavController, modifier: Modifier = Modifier, petType:String , petId: String , good_with_children :Boolean , gender:String, petSize :String , photos:String, age:String, source:String){
+fun DetailPage(navController: NavController, modifier: Modifier = Modifier, petType:String  , good_with_children :Boolean , gender:String, petSize :String , photos:String, age:String, source:String){
 
 
     val photoList = parseJsonToPhotoList(photos)
@@ -50,7 +50,7 @@ fun DetailPage(navController: NavController, modifier: Modifier = Modifier, petT
 
 
 
-    var pet = Pet(type = petType, pet_id = petId, good_with_children = good_with_children, gender = gender, size = petSize, photos = photoList, age =age, source = source)
+    var pet = Pet(type = petType,  good_with_children = good_with_children, gender = gender, size = petSize, photos = photoList, age =age, source = source)
 
     placeHolderImage = if (pet.type =="cat"|| pet.type =="Cat"){
         imageList.add( R.drawable.cat,)
